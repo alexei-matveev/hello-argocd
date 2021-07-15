@@ -22,12 +22,15 @@ To    get     the    password    for    the     "admin"    user    see
 
     $ echo $(kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d)
 
-Then you  may consider  adding your first  Application to  the already
-available "default" Project  from this Repo with path =  ./app ... See
-the [example](./k3s/hello-argocd.yaml) with invalid URL.
+Then you  may consider  fixing your first  Application in  the already
+available  "default"  Project  by  changing the  invalid  URL  in  the
+[example](hello-argocd.yaml) and deploy it:
 
-Indeed,  with ``kustomize.buildOptions:  --enable_kyaml=false`` as  an
-additional entry in the ``argocd-cm``
+    $ kubectl apply -f hello-argocd.yaml
+
+The    problem   with    unicode    can   be    indeed   fixed    with
+``kustomize.buildOptions: --enable_kyaml=false``  as an  additional or
+likely the first and only entry in the ``argocd-cm`` ConfigMap:
 
     data:
       kustomize.buildOptions: "--enable_kyaml=false"
