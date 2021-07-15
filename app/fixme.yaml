@@ -7,5 +7,5 @@ kind: Secret
 type: Opaque
 metadata:
   name: fixme
-data:
-  unused: "aGVsbG8sIGFyZ29jZCE"
+stringData:
+  unused: "hello, argocd!"
