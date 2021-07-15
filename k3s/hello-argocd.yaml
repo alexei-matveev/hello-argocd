@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-argocd
+  namespace: argocd
+spec:
+  destination:
+    namespace: hello-argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: app
+    # A valid repository needs to be connected to ArgoCD und this needs to be
+    # set accordingly:
+    repoURL: https://fixme.localhost/git/hello-argocd.git
+    targetRevision: HEAD
