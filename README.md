@@ -53,3 +53,20 @@ To  get  the  password  see  ``argocd-initial-admin-secret``,  "admin"
 appears to be accepted as the user name:
 
     $ kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d
+
+Later the manifests were updatet:
+
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.1/manifests/install.yaml
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.2/manifests/install.yaml
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/install.yaml
+    $ kubectl apply -f install.yaml
+
+With v2.0.4 image version has  changed and a ``namespaceSelector`` was
+added at one  place. For v2.0.3 only the image  version changed.  With
+v2.0.2 the image  version change an a few  NetworkPolicies were added.
+For v2.0.1 it was only the image version.
+
+Then you  may consider  adding your first  Application to  the already
+available "default" Project  from this Repo with path =  ./app ... See
+the [example](./k3s/hello-argocd.yaml) with invalid URL.
