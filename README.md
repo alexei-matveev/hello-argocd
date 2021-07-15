@@ -46,9 +46,37 @@ according to that page.  SSL Pass-Through is however not an easy task
 on k3s wit Traefik 1.7, according to
 [Community](https://community.traefik.io/t/tls-passthrough-with-sni-and-k3s/1437).
 
-Anyway, the  Ingress Docs suggests  a Service of type  = LoadBalancer.
-For  a starter  you could  check the  ``nodePort`` of  the Service  an
-access it directly:
+Later the manifests were updated:
+
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.1/manifests/install.yaml
+    ...
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/install.yaml
+    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+Patch  the  deployment   for  Ingress  to  work  in   k3s,  this  adds
+``--insecure``  to the  command line  making the  ``argocd-server`` to
+actually serve content at HTTP port  80 instead of just redirecting to
+HTTPS:
+
+    $ patch -i enable-insecure-http-at-port-80.diff install.yaml
+
+Then re-apply:
+
+    $ kubectl apply -f install.yaml
+
+With v2.0.4 image version has  changed and a ``namespaceSelector`` was
+added at one  place. For v2.0.3 only the image  version changed.  With
+v2.0.2 the image  version change an a few  NetworkPolicies were added.
+For v2.0.1 it was only the image version.
+
+FWIW, with  a browser running locally  you can get the  Cluster-IP and
+use it to access GUI:
+
+    $ kubectl get svc argocd-server
+
+Alternatively, the Ingress Docs suggests to change the service type to
+``LoadBalancer``.   Then  you  could  check the  ``nodePort``  of  the
+Service an access it directly:
 
     $ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
     $ kubectl get service/argocd-server -n argocd -o yaml
@@ -57,19 +85,6 @@ Idetify the ``nodePort`` for "https", usually above 30000, and direct
 your browser there:
 
     https://argocd.localhost:$nodePort
-
-Later the manifests were updated:
-
-    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.1/manifests/install.yaml
-    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.2/manifests/install.yaml
-    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
-    $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/install.yaml
-    $ kubectl apply -f install.yaml
-
-With v2.0.4 image version has  changed and a ``namespaceSelector`` was
-added at one  place. For v2.0.3 only the image  version changed.  With
-v2.0.2 the image  version change an a few  NetworkPolicies were added.
-For v2.0.1 it was only the image version.
 
 Then you  may consider  adding your first  Application to  the already
 available "default" Project  from this Repo with path =  ./app ... See
