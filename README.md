@@ -30,8 +30,7 @@ Indeed,  with ``kustomize.buildOptions:  --enable_kyaml=false`` as  an
 additional entry in the ``argocd-cm``
 
     data:
-      kustomize.buildOptions: --enable_kyaml=false
-      repositories: |
+      kustomize.buildOptions: "--enable_kyaml=false"
 
 and after deleting  all the pods the unicode chars  in comments appear
 to be accepted.
