@@ -16,9 +16,9 @@ See installation
 You may need to re-allpy the custom resource, if CRD is yet unknown at
 the first time install.
 
-The point your browser to a local [URL](https://argocd.localhost).  To
-get the password  see ``argocd-initial-admin-secret``, "admin" appears
-to be accepted as the user name. Output on a line by its own:
+Then point  your browser  to a  local [URL](https://argocd.localhost).
+To    get     the    password    for    the     "admin"    user    see
+``argocd-initial-admin-secret``. Output on a line by its own:
 
     $ echo $(kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d)
 
