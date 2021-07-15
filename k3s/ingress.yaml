@@ -25,6 +25,7 @@ spec:
       - pathType: Prefix
         path: /
         backend:
+          # With Traefik you want plain old http on the backend:
           service:
             name: argocd-server
             port:
