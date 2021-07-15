@@ -30,17 +30,22 @@ available  "default"  Project  by  changing the  invalid  URL  in  the
     $ kubectl apply -f hello-argocd.yaml
 
 ArgoCD will not  create namespaces to the  apps, you need to  do it on
-your own.
+your own. BTW, none of these steps  reuired you to download an use the
+ArgoCD CLI so far ...
 
-The    problem   with    unicode    can   be    indeed   fixed    with
-``kustomize.buildOptions: --enable_kyaml=false``  as an  additional or
-likely the first and only entry in the ``argocd-cm`` ConfigMap:
+#### Workaround for "yaml: invalid trailing UTF-8 octet"
+
+The   [problem](https://github.com/argoproj/argo-cd/issues/6706)  with
+unicode   can   be   indeed   fixed   with   ``kustomize.buildOptions:
+--enable_kyaml=false`` as an  additional or likely the  first and only
+entry in the ``argocd-cm`` ConfigMap:
 
     data:
       kustomize.buildOptions: "--enable_kyaml=false"
 
 and after deleting  all the pods the unicode chars  in comments appear
-to be accepted.
+to be accepted. FIXM: how do  you properly restart of reload config in
+ArgoCD?
 
 #### Update from the Upstream
 
