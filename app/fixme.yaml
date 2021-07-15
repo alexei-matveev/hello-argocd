@@ -20,4 +20,4 @@ type: Opaque
 metadata:
   name: fixme
 stringData:
-  unused: "hello, argocd!"
+  unused: "hello, again!"
