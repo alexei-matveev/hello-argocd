@@ -11,7 +11,16 @@ See installation
 
     $ kubectl create namespace argocd
     $ kubectl config set-context --current --namespace=argocd
-    $ kubectl apply -k k3s/
+    $ kubectl apply -f k3s/
+
+You may need to re-allpy the custom resource, if CRD is yet unknown at
+the first time install.
+
+The point your browser to a local [URL](https://argocd.localhost).  To
+get the password  see ``argocd-initial-admin-secret``, "admin" appears
+to be accepted as the user name. Output on a line by its own:
+
+    $ echo $(kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d)
 
 #### Update from the Upstream
 
@@ -49,12 +58,7 @@ your browser there:
 
     https://argocd.localhost:$nodePort
 
-To  get  the  password  see  ``argocd-initial-admin-secret``,  "admin"
-appears to be accepted as the user name:
-
-    $ kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d
-
-Later the manifests were updatet:
+Later the manifests were updated:
 
     $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.1/manifests/install.yaml
     $ curl -LO https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.2/manifests/install.yaml
