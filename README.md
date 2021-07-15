@@ -26,7 +26,11 @@ Then you  may consider  fixing your first  Application in  the already
 available  "default"  Project  by  changing the  invalid  URL  in  the
 [example](hello-argocd.yaml) and deploy it:
 
+    $ kubectl apply -f hello-argocd/namespace.yaml
     $ kubectl apply -f hello-argocd.yaml
+
+ArgoCD will not  create namespaces to the  apps, you need to  do it on
+your own.
 
 The    problem   with    unicode    can   be    indeed   fixed    with
 ``kustomize.buildOptions: --enable_kyaml=false``  as an  additional or
