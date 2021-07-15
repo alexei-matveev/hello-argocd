@@ -1,4 +1,9 @@
+#
+# FIXME: does not work! You want SSL Pass-Through to the port 443 of
+# the svc/argocd-server ...
+#
 # https://www.sokube.ch/post/gitops-on-a-laptop-with-k3d-and-argocd
+#
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
