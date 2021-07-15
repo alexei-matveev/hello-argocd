@@ -1,5 +1,5 @@
 #
-# Just a comment.   Hm, the problem with Unicode text  like "xxx" does
+# Just ä comment.   Hm, the problem with Unicode text  like "üäß" does
 # not seem to affect v2.0.4 when  the Application is confugured to use
 # "Directory"  as a  manifest provider.   The bug  was reported  for a
 # Kustomization project and ArgoCD v2.0.0 [1].
@@ -8,6 +8,9 @@
 # resource you will get the error message:
 #
 #     yaml: invalid trailing UTF-8 octet
+#
+# A side effect will be that your Jsonnet files will be ignored as the
+# manifest provider changes apparently to "Kustomize".
 #
 # [1] https://github.com/argoproj/argo-cd/issues/6706
 #
