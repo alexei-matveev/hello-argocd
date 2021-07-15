@@ -1,19 +1,17 @@
-# https://argoproj.github.io/argo-cd/operator-manual/ingress/#option-1-ssl-passthrough
+# https://www.sokube.ch/post/gitops-on-a-laptop-with-k3d-and-argocd
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: argocd-server-ingress
-  namespace: argocd
+  name: argocd-ingress
+  labels:
+    app: argocd
   annotations:
-    # kubernetes.io/ingress.class: nginx
-    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  # Everiything *.localhost resolves to localhost:
-  - host: argocd.localhost
-    http:
+  - http:
       paths:
-      - backend:
+      - path: /argocd
+        backend:
           serviceName: argocd-server
-          servicePort: https
+          servicePort: 80
