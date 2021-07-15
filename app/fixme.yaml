@@ -1,5 +1,5 @@
 #
-# Just a comment.   Hm, the problem with Unicode text  like "xxx" does
+# Just ä comment.   Hm, the problem with Unicode text  like "üäß" does
 # not seem to affect v2.0.4 when  the Application is confugured to use
 # "Directory"  as a  manifest provider.   The bug  was reported  for a
 # Kustomization project and ArgoCD v2.0.0 [1].
