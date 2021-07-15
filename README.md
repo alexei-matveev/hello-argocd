@@ -29,3 +29,27 @@ We start with v2.0.0:
     $ kubectl create namespace argocd
     $ kubectl config set-context --current --namespace=argocd
     $ kubectl apply -f install.yaml
+
+You need to configure
+[Ingress](https://argoproj.github.io/argo-cd/operator-manual/ingress/)
+separately.  ArgoCD appears to be used with SSL Pass-Through,
+according to that page.  SSL Pass-Through is however not an easy task
+on k3s wit Traefik 1.7, according to
+[Community](https://community.traefik.io/t/tls-passthrough-with-sni-and-k3s/1437).
+
+Anyway, the  Ingress Docs suggests  a Service of type  = LoadBalancer.
+For  a starter  you could  check the  ``nodePort`` of  the Service  an
+access it directly:
+
+    $ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+    $ kubectl get service/argocd-server -n argocd -o yaml
+
+Idetify the ``nodePort`` for "https", usually above 30000, and direct
+your browser there:
+
+    https://argocd.localhost:$nodePort
+
+To  get  the  password  see  ``argocd-initial-admin-secret``,  "admin"
+appears to be accepted as the user name:
+
+    $ kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d
