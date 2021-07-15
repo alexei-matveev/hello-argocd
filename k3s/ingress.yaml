@@ -1,22 +1,31 @@
 #
-# FIXME: does not work! You want SSL Pass-Through to the port 443 of
-# the svc/argocd-server ...
+# FIXME:  does not  work with  vanilla  install! You  either want  SSL
+# Pass-Through  to the  port 443  of the  svc/argocd-server or  supply
+# --insecure to  the argocd-server deployment. Without  --insecure one
+# gets a  redirect to https://  site, the  browser ends up  asking the
+# Traefik Ingress again which proxies to  http:// at port 80 again ---
+# an endless loop. See
 #
-# https://www.sokube.ch/post/gitops-on-a-laptop-with-k3d-and-argocd
+#     ./enable-insecure-http-at-port-80.diff
 #
-apiVersion: extensions/v1beta1
+# which  will  need to  be  re-applied  after  eacht update  from  the
+# upstream ...
+#
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argocd-ingress
   labels:
     app: argocd
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - http:
+  - host: "argocd.localhost"
+    http:
       paths:
-      - path: /argocd
+      - pathType: Prefix
+        path: /
         backend:
-          serviceName: argocd-server
-          servicePort: 80
+          service:
+            name: argocd-server
+            port:
+              number: 80
