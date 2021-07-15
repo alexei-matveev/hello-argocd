@@ -22,6 +22,20 @@ To    get     the    password    for    the     "admin"    user    see
 
     $ echo $(kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r .data.password | base64 -d)
 
+Then you  may consider  adding your first  Application to  the already
+available "default" Project  from this Repo with path =  ./app ... See
+the [example](./k3s/hello-argocd.yaml) with invalid URL.
+
+Indeed,  with ``kustomize.buildOptions:  --enable_kyaml=false`` as  an
+additional entry in the ``argocd-cm``
+
+    data:
+      kustomize.buildOptions: --enable_kyaml=false
+      repositories: |
+
+and after deleting  all the pods the unicode chars  in comments appear
+to be accepted.
+
 #### Update from the Upstream
 
 The installation
@@ -85,17 +99,3 @@ Idetify the ``nodePort`` for "https", usually above 30000, and direct
 your browser there:
 
     https://argocd.localhost:$nodePort
-
-Then you  may consider  adding your first  Application to  the already
-available "default" Project  from this Repo with path =  ./app ... See
-the [example](./k3s/hello-argocd.yaml) with invalid URL.
-
-Indeed,  with ``kustomize.buildOptions:  --enable_kyaml=false`` as  an
-additional entry in the ``argocd-cm``
-
-    data:
-      kustomize.buildOptions: --enable_kyaml=false
-      repositories: |
-
-and after deleting  all the pods the unicode chars  in comments appear
-to be accepted.
