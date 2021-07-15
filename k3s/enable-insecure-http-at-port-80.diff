@@ -1,0 +1,12 @@
+diff --git a/k3s/install.yaml b/k3s/install.yaml
+index caadbe3..32b97ab 100644
+--- a/k3s/install.yaml
++++ b/k3s/install.yaml
+@@ -2740,6 +2740,7 @@ spec:
+         - argocd-server
+         - --staticassets
+         - /shared/app
++        - --insecure            # FIXME!
+         image: quay.io/argoproj/argocd:v2.0.4
+         imagePullPolicy: Always
+         livenessProbe:
